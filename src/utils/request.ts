@@ -2,11 +2,12 @@ import { Result } from '@/types/api'
 import { message } from 'antd'
 import axios from 'axios'
 import { showLoading,hiddenLoading } from '@/utils/loading'
+import { useNavigate } from 'react-router-dom'
 const instance = axios.create({
     baseURL: '/api',
 })
 instance.interceptors.request.use(config => {
-    config.headers.icode = '5D4C0A5D7D8E0EFD'
+    config.headers.icode = '46C0ACDBB9ED8ECA'
     const TOKEN = localStorage.token
     if(TOKEN){
         config.headers.Authorization = 'Bearer ' + TOKEN

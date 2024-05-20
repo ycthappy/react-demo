@@ -1,14 +1,21 @@
 import api from '@/api'
-import { Space, Table, TableProps, Tag } from 'antd'
+import { Button, Space, Table, TableProps, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
 import {PageParams,User} from '@/types/api'
 import dayjs from 'dayjs'
+import { useParams } from 'react-router-dom'
+import { ColumnsType } from 'antd/es/table'
 // console.log(dayjs(new Date().getTime()).format('YY-MM-DD'))
+type MatchParams =  {
+  id:string
+}
 const Welcome:React.FC = ()=>{
     const [tableData,setTableData] = useState<User.UserItem[]>([])
+    const params = useParams<MatchParams>()
     
     useEffect(()=>{
         getUserList({pageNum:1})
+        console.log(params.id)
     },[])
 
     const getUserList = async(params:PageParams)=>{
@@ -18,7 +25,7 @@ const Welcome:React.FC = ()=>{
 
         setTableData(res.list)
     }
-    const columns: TableProps<User.UserItem>['columns'] = [
+    const columns: ColumnsType<User.UserItem> = [
         {
           title: '用户ID',
           dataIndex: 'userId',

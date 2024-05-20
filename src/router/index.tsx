@@ -1,9 +1,10 @@
-import Welcome from '../pages/welcome'
+// import Welcome from '../pages/welcome'
 import { Navigate, createBrowserRouter, createHashRouter } from 'react-router-dom'
 import Layout from '@/pages/layout'
 import Manage from '../pages/manage'
 import Login from '../pages/login'
-
+import React from 'react'
+const Welcome = React.lazy(()=>import('@/pages/welcome'))
 const router = [
     {
         path:'/',
@@ -14,7 +15,7 @@ const router = [
         element:<Layout/>,
         children:[
             {
-                path:'welcome',
+                path:'welcome/:id',
                 element:<Welcome/>
             },{
                 path:'manage',

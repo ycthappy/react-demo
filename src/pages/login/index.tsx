@@ -2,16 +2,24 @@ import { Button, Form, Input, message } from 'antd'
 import styles from './index.module.less'
 import { Login, Result } from '@/types/api'
 import api from '@/api'
-import { useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { flushSync } from 'react-dom'
-export default function () {
+import { appContext } from '../appState'
+import RowItem from '../components/rowItem/RowItem'
 
+import Dev from './Dev'
+
+import { getTime } from '@/assets/utils.ts'
+export default function () {
+    const value = useContext(appContext)
     const [form] = Form.useForm()
     const navigator = useNavigate()
     const [count,setCount] = useState(0)
     const [loading, setLoading] = useState<boolean>(false)
-    
+    const timer = getTime()
+    console.log(timer)
+
     useEffect(()=>{
         form.setFieldsValue({
             userName:'409176193',
@@ -32,7 +40,7 @@ export default function () {
             })
             setLoading(false)
             localStorage.token = res
-            navigator('/welcome')
+            navigator('/welcome/10')
                         
         } catch (error) {
             setLoading(false)
@@ -41,16 +49,23 @@ export default function () {
     }
     const _onClick = ()=>{
         flushSync(()=>{
-            console.log(count)
             setCount(count=>count + 5)
         })
-        console.log(count)
+    }
+    const _refresh = useCallback(()=>{
+        console.log('index父组件')
+    },[])
+    const dataObj = {
+        username:'xt',
+        address:'123'
     }
     return (
         <>
             <div className={styles.login}>
-                <div className='loginWrap'>系统登录</div>
-
+                {count}
+                <Dev refresh={_refresh}></Dev>
+                <div className='loginWrap'>系统登录{value.userName}</div>
+                <RowItem data={dataObj}/>
                 <Form
                     name="basic"
                     form={form}
@@ -78,8 +93,8 @@ export default function () {
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        {/* <Button type="primary" htmlType="submit" loading={loading}>登录</Button> */}
-                        <Button type="primary" onClick={_onClick}>登录</Button>
+                        <Button type="primary" htmlType="submit" loading={loading}>登录</Button>
+                        {/* <Button type="primary" onClick={_onClick}>登录</Button> */}
                     </Form.Item>
                 </Form>
             </div>
